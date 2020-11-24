@@ -10,7 +10,7 @@ def score(bytez):
     for i in range(0,segs-1):
         for j in range(i,segs):
             sco += hammingD(bytez[i*16:i*16+16],bytez[j*16:j*16+16], True)
-    return sco/(segs**2)
+    return sco/((segs**2-segs)/2)
 
 if __name__ == "__main__":
     if(len(sys.argv) <= 1):

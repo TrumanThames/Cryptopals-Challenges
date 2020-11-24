@@ -1,16 +1,19 @@
-import os
 import sys
 from cryptography.hazmat.backends import openssl
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import padding
+from pkcs_pad import pad
 from brk_rxc import b64_to_bytes
-import nacl
 
 
 
-def decrypt(text, key):
-    padder = padding.PKCS7(128).padder()
-    padded_text = padder.update(text) + padder.finalize()
+def decrypt(text, key, wantpad=True):
+    if(wantpad):
+        padder = padding.PKCS7(128).padder()
+        padded_text = padder.update(text) + padder.finalize()
+    else:
+        padded_text = text
+    #print(padded_text)
     boole = False
     #print(dir(cryptography))
     #print(dir(cryptography.hazmat))
@@ -27,6 +30,15 @@ def decrypt(text, key):
     cipher = Cipher(algorithms.AES(key), modes.ECB(), back)
     decryptor = cipher.decryptor()
     return decryptor.update(padded_text) + decryptor.finalize()
+    
+def encrypt(text, key):
+    padder = padding.PKCS7(128).padder()
+    text = padder.update(text) + padder.finalize()
+    #print(text)
+    back = openssl.backend
+    cipher = Cipher(algorithms.AES(key), modes.ECB(), back)
+    encryptor = cipher.encryptor()
+    return encryptor.update(text) +encryptor.finalize()
 
 
 if(__name__ == '__main__'):

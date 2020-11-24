@@ -40,6 +40,30 @@ def count_chars(text):
         if(b == 101):
             count += 1
     return count
+    
+def score(text):
+    count = 0
+    bads = [92,38,36,37,124,33]
+    for b in text:
+        if(b <= 90 and b >= 65):
+            count += 2
+        elif(b <= 122 and b >= 97):
+            count += 2
+        elif(b == 32):
+            count += 2
+        elif(b >= 0 and b <= 31):
+            count -= 0
+        elif(b >= 48 and b <= 57):
+            count += 1
+        elif(b == 39):
+            count += 1
+        elif(b in bads):
+            count -= 0
+        elif(b >= 128):
+            count -= 0
+        if(b == 101):
+            count += 1
+    return count
 
 def singlebyte(h_str, bytez=False, sol=0):
     arrayo = {}

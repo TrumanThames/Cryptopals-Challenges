@@ -1,11 +1,12 @@
 import sys
 
 def pad(t, size=16):
+    #takes t as a bytearray
     l = len(t)
     a = l % (size)
     if a == 0:
         return t
-    return t+('\x04'*(size-a)).encode()
+    return t+(chr(size-a)*(size-a)).encode()
 
 if __name__ == "__main__":
     if (len(sys.argv) <= 1):
