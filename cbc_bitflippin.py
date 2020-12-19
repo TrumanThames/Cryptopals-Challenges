@@ -23,7 +23,7 @@ def look_for(ctext, s_term):
         return True
 
 def ceiling(z0, bas):
-    #rounds z0 up to a multiple of bas, bot integers
+    #rounds z0 up to a multiple of bas, both integers
     #it seems this will work with negatives, it's just a
     # little odd the think of rounding up to a multiple
     #of negative as going down
@@ -47,6 +47,10 @@ def xor(bs0, bs1):
         return bytes(bs)+bs0[l:]
 
 def flip_insert_crack(ins_txt, encr=preapp):
+    # given encr, which encrypts with cbc the input text with some
+    #random pre and post fixes after sanitizing the input, modify
+    #the returned ciphertext so that the plaintext inculdes ins_txt
+    #using the xor next block bit flip vulnerability in cbc mode of aes
     ctext_base = encr(b'')
     l0 = len(ctext_base)
     lins = len(ins_txt)

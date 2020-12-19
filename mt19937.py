@@ -15,9 +15,12 @@ lower_mask = (1 << r) - 1
 upper_mask = (2**(w) - 1) & (~ lower_mask) #I hope this is right
 
 def seed_mt(seed):
+    if type(seed) != type(0):
+        print("Error: The seed must be of type int. Nothing Doing")
+        return
     global index
     index = n
-    MT[0] = seed
+    MT[0] = seed & (2**w-1)
     for i in range(1, n):
         MT[i] = (2**(w) -1) & (((f * MT[i-1]) ^ (MT[i-1] >> (w-2))) + i)
     return

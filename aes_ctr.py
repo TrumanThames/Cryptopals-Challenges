@@ -11,11 +11,13 @@ def little_end(n):
     return bytes(bytez)
 
 def bytes_xor(b0, b1):
-    # b0 and b1 are same length bytearrays, 
-    b0z = [i for i in b0]
-    b1z = [i for i in b1]
-    x = [i^j for (i,j) in zip(b0z, b1z)]
+    # b0 and b1 are bytearrays, this function stops when one of 
+    #b0 or b1 terminates, which isn't quite what an ideal xor would do
+    #but is good 'nough for me
+    z = zip(b0,b1)
+    x = [y0^y1 for (y0,y1) in z]
     return bytes(x)
+## 
 
 def encrypt_ctr_n(key, nonce, n, text):
     l = len(text)
@@ -36,7 +38,12 @@ def encrypt_ctr(key, nonce, text):
 
 def decrypt_ctr(key, nonce, ctext):
     l = ceil(len(ctext)/16)
+    if l == 0:
+        return b''
     text = [b'0']*l
-    for i in range(0,l):
+    ctext = ctext
+    for i in range(0,l-1):
         text[i] = decrypt_ctr_n(key, nonce, i, ctext[16*i:16*(i+1)])
+    text[l-1] = decrypt_ctr_n(key, nonce, l-1, ctext[16*(l-1):min(16*l, len(ctext))])
     return reduce(lambda x,y:x+y, text)
+    
