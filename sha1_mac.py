@@ -6,7 +6,7 @@ import random
 
 K0 = gen_bytes(24)
 
-def macify(key = K0, mensaje = b'OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO'):
+def macify(mensaje, key = K0):
     hashy = SHA1.new(key + mensaje)
     return hashy.digest()
 
@@ -24,26 +24,26 @@ def test_macify(n=1000, text = T, key = K0):
     for i in range(0,n):
         rbytes0 = gen_bytes(100)
         mtext = xor(text, rbytes0)
-        mHash0 = macify(key, mtext)
+        mHash0 = macify(mtext, key)
         mkey = gen_bytes(24)
-        mHash1 = macify(mkey, text)
-        mHash2 = macify(mkey, mtext)
+        mHash1 = macify(text, mkey)
+        mHash2 = macify(mtext, mkey)
         if mHash0 == H0:
-            print("000What da, why are these dang things equal!?!")
+            print("000 What da, why are these dang things equal!?!")
             print(key)
             print(text)
             print(key)
             print(mtext)
             return False
         if mHash1 == H0:
-            print("111What da, why are these dang things equal!?!")
+            print("111 What da, why are these dang things equal!?!")
             print(key)
             print(text)
             print(mkey)
             print(text)
             return False
         if mHash2 == H0:
-            print("222What da, why are these dang things equal!?!")
+            print("222 What da, why are these dang things equal!?!")
             print(key)
             print(text)
             print(mkey)

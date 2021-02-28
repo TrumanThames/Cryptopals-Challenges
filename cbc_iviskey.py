@@ -30,3 +30,5 @@ def modlify(ctext):
         ptext = (val.args)[0]
         K = cbc_decrypt.bytes_xor(ptext[0:16], ptext[32:48])
     return K
+
+
