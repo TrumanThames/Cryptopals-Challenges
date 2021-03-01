@@ -10,6 +10,8 @@ def macify(mensaje, key = K0):
     hashy = SHA1.new(key + mensaje)
     return hashy.digest()
 
+def sha1(T): return macify(T, b'')
+
 def mac_check(mensaje, mac):
     hashy = SHA1.new(K0 + mensaje)
     if mac != hashy.digest():
