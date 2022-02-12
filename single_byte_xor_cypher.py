@@ -17,6 +17,7 @@ def freq_ya(text):
             freq_dict.setdefault(c, 1)
     so_by_val = sorted(freq_dict.items(), key=lambda x:x[1], reverse=True)
 
+
 def count_chars(text):
     count = 0
     bads = [92,38,36,37,124,33]
@@ -40,7 +41,8 @@ def count_chars(text):
         if(b == 101):
             count += 1
     return count
-    
+
+
 def score(text):
     count = 0
     bads = [92,38,36,37,124,33]
@@ -64,6 +66,7 @@ def score(text):
         if(b == 101):
             count += 1
     return count
+
 
 def singlebyte(h_str, bytez=False, sol=0):
     arrayo = {}

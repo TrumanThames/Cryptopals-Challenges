@@ -15,14 +15,17 @@ def sumbits(i0):
         i = i >> 1
     return cnt
 
+
 def stringed(byted_thing):
     return "".join([chr(x) for x in byted_thing])
+
 
 def byted(chrs, istextbytes=False):
     if istextbytes:
         return chrs
     else:
         return [ord(c) for c in chrs]
+
 
 def hammingD(s1, s2, istextbytes=False):
     h1 = byted(s1, istextbytes)
@@ -32,6 +35,7 @@ def hammingD(s1, s2, istextbytes=False):
         return x+y
     return reduce(f, sum_xrd, 0)
 
+
 def blockbreak(text, ksz):
     blocks = [copy.deepcopy([]) for x in range(0,ksz)]
     for i in range(0,len(text)):
@@ -40,6 +44,7 @@ def blockbreak(text, ksz):
     #for b in blocks:
     #    strocks.append("".join(b))
     return blocks
+
 
 def fullFat(kszblck,length,ksz):
     strstr = []
@@ -61,6 +66,7 @@ def fullFat(kszblck,length,ksz):
         key.append(kblck[i][2])
     #print(kblck[0])
     return (strstr, key)
+
 
 def break_it(text, num_kszs=3, istextbytes=False):
     num_kszs = min(num_kszs, int(len(text)/4)-1, 42)

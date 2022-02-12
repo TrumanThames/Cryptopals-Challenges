@@ -6,7 +6,6 @@ from pkcs_pad import pad
 from brk_rxc import b64_to_bytes
 
 
-
 def decrypt(text, key, wantpad=True):
     if(wantpad):
         padder = padding.PKCS7(128).padder()
@@ -30,7 +29,8 @@ def decrypt(text, key, wantpad=True):
     cipher = Cipher(algorithms.AES(key), modes.ECB(), back)
     decryptor = cipher.decryptor()
     return decryptor.update(padded_text) + decryptor.finalize()
-    
+
+
 def encrypt(text, key):
     padder = padding.PKCS7(128).padder()
     text = padder.update(text) + padder.finalize()

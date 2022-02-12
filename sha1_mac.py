@@ -6,11 +6,14 @@ import random
 
 K0 = gen_bytes(24)
 
-def macify(mensaje, key = K0):
+
+def macify(mensaje, key=K0):
     hashy = SHA1.new(key + mensaje)
     return hashy.digest()
 
+
 def sha1(T): return macify(T, b'')
+
 
 def mac_check(mensaje, mac):
     hashy = SHA1.new(K0 + mensaje)
@@ -19,7 +22,9 @@ def mac_check(mensaje, mac):
     else:
         return True
 
+
 T = b'Bananas fortify the soil and strengthen the heart. If you should chance upon a bunch of bananas or a fistful of fingers, you should take care to not uproot the blessed banana tree!!!!!!?'
+
 
 def test_macify(n=1000, text = T, key = K0):
     H0 = macify(key, text)

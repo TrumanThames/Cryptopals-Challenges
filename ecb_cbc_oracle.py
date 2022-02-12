@@ -33,6 +33,7 @@ def encryption_oracle(text):
 def blist(ctext):
     return [i for i in ctext]
 
+
 def is_ecb(ctext):
     #turning ctext into a list of bytes because I coded score when I was using that type
     byte_list_ctext = blist(ctext)
@@ -44,6 +45,7 @@ def is_ecb(ctext):
     else:
         #print("I guess it is CBC!!!")
         return False
+
 
 if __name__=="__main__":
     if(len(sys.argv) < 2):

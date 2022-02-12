@@ -16,11 +16,13 @@ def padd(mensaje):
     mtext = mensaje+b'\x80'+b'\x00'*add
     return mtext+int.to_bytes(l*8, 8, 'big')
 
+
 h0 = 0x67452301
 h1 = 0xEFCDAB89
 h2 = 0x98BADCFE
 h3 = 0x10325476
 h4 = 0xC3D2E1F0
+
 
 def xordem(b0, b1, b2=b'', b3=b''):
     #xors a bunch of byte arrays
@@ -34,13 +36,18 @@ def xordem(b0, b1, b2=b'', b3=b''):
     xint = i0^i1^i2^i3
     return xint.to_bytes(l, 'big')
 
+
 def lrot1(x):
+    # these are redundant different implementations of rotations
+    # I was checking to make sure I had done it correctly
     return ((x<<1) + ((x&(2**31)) == 2**31)) & (2**32 - 1)
+
 
 def lrotn(x, n):
     for i in range(0,n):
         x = lrot1(x)
     return x
+
 
 def lrotate(x, n):
     #left rotates a 32 bit int, assuming big endianess
@@ -48,17 +55,21 @@ def lrotate(x, n):
     #x = x & (2**32 - 1)
     return ((x << n) + (x >> (32-n))) & (2**32 - 1)
 
+
 def rrot1(x):
     return ((x >> 1) | ((x%2) << 31)) & (2**32 - 1)
+
 
 def rrotn(x, n):
     for i in range(0,n):
         x = rrot1(x)
     return x
 
+
 def blrotate(b, n):
     #left rotates a 32bit (4byte) bytestring
     return lrotn(int.from_bytes(b, 'big'), n).to_bytes(4, 'big')
+
 
 def SHA1_YO(text, a1=h0, b1=h1, c1=h2, d1=h3, e1=h4):
     # this should hash the text variable (a bytestring) with sha1 initial registers a,b,c,d,e
@@ -104,6 +115,7 @@ def SHA1_YO(text, a1=h0, b1=h1, c1=h2, d1=h3, e1=h4):
         e1 = (e1 + e) & (2**32 - 1)
     abcde = ((a1 << 128) | (b1 << 96) | (c1 << 64) | (d1 << 32) | e1) & (2**160 - 1)
     return abcde.to_bytes(20, 'big')
+
 
 def test_rotatos(n=1233):
     for i in range(0,n):
