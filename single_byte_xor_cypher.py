@@ -10,7 +10,7 @@ import sys
 
 def freq_ya(text):
     freq_dict = {}
-    for c in cd_text:
+    for c in text:
         if c in freq_dict:
             freq_dict[c] += 1
         else:

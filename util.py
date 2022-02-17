@@ -3,6 +3,34 @@ import random
 #collection of functions that I've used throughout this code
 
 
+def mexp(a, b, p, precomp):
+    if b in precomp:
+        return precomp[b]
+    else:
+        r0 = mexp(a, b//2, p, precomp)  # For some godforsaken reason int(b/2) is not the same as b//2
+        # for giganto numbers, which makes the thing wrong for the cases that you cannot easily check
+        precomp[b//2] = r0
+        r1 = mexp(a, (b+1)//2, p, precomp)
+        precomp[(b+1)//2] = r1
+        return (r0*r1) % p
+
+
+def modexp(a, b, p, debug=False):
+    # a**b mod p = a**(b/2) * a**(b/2) mod p
+    # where a, b, and p are integers and p is prime
+    a = a % p
+    b = b % (p-1) # Fermat's little theorem
+    if a == 0:
+        return 0
+    if a == 1:
+        return 1
+    precomp = {0: 1, 1: a}
+    retval = mexp(a, b, p, precomp)
+    if debug:
+        print(precomp)
+    return retval
+
+
 def sumbits(i0):
     #sums the bits in a numero
     i = i0
@@ -16,19 +44,19 @@ def sumbits(i0):
 int_to_b64 = {}
 b64_to_int = {}
 for i in range(0,64):
-    if(i >= 0 and i <= 25):
+    if 0 <= i <= 25:
         int_to_b64[i] = chr(i+65)
         b64_to_int[chr(i+65)] = i
-    elif(i >= 26 and i <= 51):
+    elif 26 <= i <= 51:
         int_to_b64[i] = chr(i+71)
         b64_to_int[chr(i+71)] = i
-    elif(i >= 52 and i <= 61):
+    elif 52 <= i <= 61:
         int_to_b64[i] = chr(i-4)
         b64_to_int[chr(i-4)] = i
-    elif(i == 62):
+    elif i == 62:
         int_to_b64[i] = '+'
         b64_to_int['+'] = i
-    elif(i == 63):
+    elif i == 63:
         int_to_b64[i] = '/'
         b64_to_int['/'] = i
 #print(b64_to_int)
@@ -69,6 +97,35 @@ def gen_bytes(size=16):
 
 def randbytes(low=5, hi=11):
     i = random.randint(low, hi)
-    x = random.randint(0,2**(8*i))
+    x = random.randint(0,2**(8*i)-1)
     return x.to_bytes(i, 'big')
 
+
+def encode_hex_to_b64(HcharA, HcharB, HcharC):
+    bin_str = str(bin(int("".join(['f',HcharA,HcharB,HcharC]), 16)))
+    blen = len(bin_str)
+    t1 = bin_str[blen-6:blen]
+    t0 = bin_str[blen-12:blen-6]
+    it0 = int(t0, 2)
+    it1 = int(t1, 2)
+    if(it0 >= 0 and it0 <= 25):
+        b64_0 = chr(it0+65)
+    elif(it0 >= 26 and it0 <= 51):
+        b64_0 = chr(it0+71)
+    elif(it0 >= 52 and it0 <= 61):
+        b64_0 = chr(it0-4)
+    elif(it0 == 62):
+        b64_0 = '+'
+    elif(it0 == 63):
+        b64_0 = '/'
+    if(it1 >= 0 and it1 <= 25):
+        b64_1 = chr(it1+65)
+    elif(it1 >= 26 and it1 <= 51):
+        b64_1 = chr(it1+71)
+    elif(it1 >= 52 and it1 <= 61):
+        b64_1 = chr(it1-4)
+    elif(it1 == 62):
+        b64_1 = '+'
+    elif(it1 == 63):
+        b64_1 = '/'
+    return [b64_0 , b64_1]

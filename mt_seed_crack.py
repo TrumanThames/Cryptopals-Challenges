@@ -2,6 +2,7 @@ import time
 import random
 import mt19937 as mt
 
+
 def waiting_seed_rng(lbd = 40, ubd = 1000, wait=True):
     wint = random.randint(lbd, ubd)
     if wait == True: #actually wait
